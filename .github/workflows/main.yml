@@ -1,0 +1,24 @@
+name: Run Mirror-Leech-Telegram-Bot (Docker)
+
+on:
+  workflow_dispatch:  
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Show files
+        run: ls -al
+
+      - name: Build Docker image
+        run: docker build -t mirrorbot .
+
+      - name: Run Docker container
+        run: |
+          docker run -d --name mirrorbot --env-file .env mirrorbot
+          echo "Bot started inside Docker container"
+          docker ps
